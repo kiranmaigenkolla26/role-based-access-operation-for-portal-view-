@@ -1,0 +1,69 @@
+##RBA Operations
+import com.atlassian.jira.component.ComponentAccessor
+import com.onresolve.jira.groovy.user.FormField
+
+FormField rbaOperationFF = getFieldById(getFieldChanged())
+String rbaOperation = rbaOperationFF.value
+FormField businessUnitFF = getFieldById("customfield_11387")
+FormField subBusinessUnitFF = getFieldById("customfield_11388")
+FormField justificationFF = getFieldByName("Justification (Please be specific why you cannot proceed with this form)")
+FormField roleFF = getFieldById("customfield_12723")
+FormField softwareFF = getFieldByName("Software")
+FormField hardwareFF = getFieldByName("Hardware")
+FormField hciDomainGroupsFF = getFieldByName("HCI Domain Groups")
+FormField hrpDomainGroupsFF = getFieldByName("HRP Domain Groups")
+FormField mediconnectDomainGroupFF = getFieldByName("Mediconnect Domain Groups")
+FormField d2hDomainGroupsFF = getFieldByName("D2H Domain Groups")
+FormField d2hsDomainGroupsFF = getFieldByName("D2HS Domain Groups (d2hs.com)")
+FormField createAccountFF = getFieldByName("Create Account")
+FormField verscendDomainGroupsFF = getFieldByName("Verscend Domain Groups")
+FormField cotivitiDomainGroupsFF = getFieldByName("Cotiviti Domain Groups")
+FormField ccaGroupsFF = getFieldByName("CCA Groups")
+FormField ihtDomainGroupsFF = getFieldByName("IHT Domain Groups")
+FormField tiermedDCDomainGroupsFF = getFieldByName("TiermedDC Domain Groups")
+FormField genericServiceRequestFF = getFieldByName("Generic Service Request")
+
+//DEBUG : 
+//rbaOperationFF.setHelpText("${rbaOperation} : ${rbaOperation?.class.toString()}")
+if("Update Role".equals(rbaOperation)) {
+    businessUnitFF.setHidden(false)
+    subBusinessUnitFF.setHidden(false)
+    justificationFF?.setHidden(true)?.setRequired(false)?.setFormValue("")
+
+    roleFF?.setHidden(false)?.setRequired(true)
+    softwareFF?.setHidden(true)//f
+    hardwareFF?.setHidden(true)
+    hciDomainGroupsFF?.setHidden(true)
+    hrpDomainGroupsFF?.setHidden(true)
+    mediconnectDomainGroupFF?.setHidden(true)
+    d2hDomainGroupsFF?.setHidden(true)
+    d2hsDomainGroupsFF?.setHidden(true)
+    createAccountFF?.setHidden(true)
+    verscendDomainGroupsFF?.setHidden(true)
+    cotivitiDomainGroupsFF?.setHidden(true)
+    ccaGroupsFF?.setHidden(true)
+    ihtDomainGroupsFF?.setHidden(true)
+    tiermedDCDomainGroupsFF?.setHidden(true)
+    genericServiceRequestFF?.setHidden(true)
+} else if ("Problem with RBA Form".equals(rbaOperation)) {
+    businessUnitFF.setHidden(false)
+    subBusinessUnitFF.setHidden(false)
+    justificationFF?.setHidden(false)?.setRequired(true)
+    
+    roleFF?.setHidden(true)?.setRequired(false).setFormValue("")
+    softwareFF?.setHidden(true)?.setFormValue("")
+    hardwareFF?.setHidden(true)?.setFormValue("")
+    hciDomainGroupsFF?.setHidden(true)?.setFormValue("")
+    hrpDomainGroupsFF?.setHidden(true)?.setFormValue("")
+    mediconnectDomainGroupFF?.setHidden(true)?.setFormValue("")
+    d2hDomainGroupsFF?.setHidden(true)?.setFormValue("")
+    d2hsDomainGroupsFF?.setHidden(true)?.setFormValue("")
+    createAccountFF?.setHidden(true)?.setFormValue("")
+    verscendDomainGroupsFF?.setHidden(true)?.setFormValue("")
+    cotivitiDomainGroupsFF?.setHidden(true)?.setFormValue("")
+    ccaGroupsFF?.setHidden(true)?.setFormValue("")
+    ihtDomainGroupsFF?.setHidden(true)?.setFormValue("")
+    tiermedDCDomainGroupsFF?.setHidden(true)?.setFormValue("")
+    genericServiceRequestFF?.setHidden(true)?.setFormValue("")
+}
+
