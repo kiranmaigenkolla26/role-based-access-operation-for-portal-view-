@@ -1,0 +1,139 @@
+# after clicking on the Role what all the fields need to get displayed
+
+import com.atlassian.jira.component.ComponentAccessor;
+import com.atlassian.jira.issue.ModifiedValue;
+import com.atlassian.jira.issue.util.DefaultIssueChangeHolder
+
+def softwareCF = getFieldById("customfield_12764")
+def HardwareCF = getFieldById("customfield_12765")
+def domiangroup = getFieldById("customfield_12773")
+def groupname = getFieldById("customfield_14001")
+
+Class objectFacadeClass = ComponentAccessor.getPluginAccessor().getClassLoader().loadClass("com.riadalabs.jira.plugins.insight.channel.external.api.facade.ObjectFacade");
+def objectFacade = ComponentAccessor.getOSGiComponentInstanceOfType(objectFacadeClass);
+
+Class iqlFacadeClass = ComponentAccessor.getPluginAccessor().getClassLoader().loadClass("com.riadalabs.jira.plugins.insight.channel.external.api.facade.IQLFacade")
+def iqlFacade = ComponentAccessor.getOSGiComponentInstanceOfType(iqlFacadeClass)
+
+/* Get Insight Object Attribute Facade from plugin accessor */
+Class objectTypeAttributeFacadeClass = ComponentAccessor.getPluginAccessor().getClassLoader().loadClass("com.riadalabs.jira.plugins.insight.channel.external.api.facade.ObjectTypeAttributeFacade");
+def objectTypeAttributeFacade = ComponentAccessor.getOSGiComponentInstanceOfType(objectTypeAttributeFacadeClass);
+
+def roleTitleObj = getFieldById("customfield_12723")
+def objects = iqlFacade.findObjectsByIQLAndSchema(25, "\"Key\" = \"" + roleTitleObj.getValue() +"\"")// "\"" + attributeUserID + "\" = \"" + applicationKey + "\"")
+
+def Software = objectFacade.loadObjectAttributeBean(objects[0].getId(), "Software")
+if(Software != null) {
+	softwareCF.setFormValue(Software.getObjectAttributeValueBeans()[0].getValue());    
+}
+softwareCF.setReadOnly(true)
+
+def Hardware = objectFacade.loadObjectAttributeBean(objects[0].getId(), "Hardware")
+
+if(Hardware != null) {
+	HardwareCF.setFormValue(Hardware.getObjectAttributeValueBeans()[0].getValue());
+}
+HardwareCF.setReadOnly(true)
+
+//Cotiviti Domain Groups -- customFieldId=13148
+def cotidomgrp = objectFacade.loadObjectAttributeBean(objects[0].getId(), "Cotiviti Domain Groups")
+if(cotidomgrp != null) {
+    def cotidomgrpCF = getFieldById("customfield_12773")
+    cotidomgrpCF.setFormValue(cotidomgrp.getObjectAttributeValueBeans()[0].getValue())
+    cotidomgrpCF.setReadOnly(true)
+}
+
+/*+ String.valueOf(issue.groupname));
+if(domiangroup == Cotiviti)
+{
+    def x = cotidomgrpCF.getValue().append(groupname)
+    cotidomgrpCF.setFormValue(x)
+}
+*/
+//HCI Domain Groups -- customFieldId=13142
+def hcidomgrp = objectFacade.loadObjectAttributeBean(objects[0].getId(), "HCI Domain Groups")
+if(hcidomgrp != null) {
+    def hcidomgrpCF = getFieldById("customfield_12766")
+    hcidomgrpCF.setFormValue(hcidomgrp.getObjectAttributeValueBeans()[0].getValue());
+    hcidomgrpCF.setReadOnly(true)
+}
+
+//HRP Domain Groups -- customFieldId=13143
+def hrpdomgrp = objectFacade.loadObjectAttributeBean(objects[0].getId(), "HRP Domain Groups")
+if(hrpdomgrp != null) {
+    def hrpdomgrpCF = getFieldById("customfield_12767")
+    hrpdomgrpCF.setFormValue(hrpdomgrp.getObjectAttributeValueBeans()[0].getValue()); 
+    hrpdomgrpCF.setReadOnly(true)
+}
+
+//Mediconnect Domain Groups -- customFieldId=13144
+def medidmngrp = objectFacade.loadObjectAttributeBean(objects[0].getId(), "MEDICONNECT Domain Groups")
+if(medidmngrp != null) {
+    def medidmngrpCF = getFieldById("customfield_12768")
+    medidmngrpCF.setFormValue(medidmngrp.getObjectAttributeValueBeans()[0].getValue());
+    medidmngrpCF.setReadOnly(true)
+}
+
+//D2H Domain Groups -- customFieldId=13145
+def dthdmngrp = objectFacade.loadObjectAttributeBean(objects[0].getId(), "D2H Domain Groups")
+if(dthdmngrp != null) {
+    def dthdmngrpCF = getFieldById("customfield_12769")
+    dthdmngrpCF.setFormValue(dthdmngrp.getObjectAttributeValueBeans()[0].getValue());
+    dthdmngrpCF.setReadOnly(true)
+}
+
+//Create Account --  customFieldId=13146
+def crteacct = objectFacade.loadObjectAttributeBean(objects[0].getId(), "Create Account")
+if(crteacct != null) {
+    def crteacctCF = getFieldById("customfield_12771")
+    crteacctCF.setFormValue(crteacct.getObjectAttributeValueBeans()[0].getValue());    
+    crteacctCF.setReadOnly(true)
+}
+
+//CCA Groups -- customFildId=13149
+def ccagrps = objectFacade.loadObjectAttributeBean(objects[0].getId(), "CCA Groups")
+if(ccagrps != null) {
+    def ccagrpsCF = getFieldById("customfield_12774")
+    ccagrpsCF.setFormValue(ccagrps.getObjectAttributeValueBeans()[0].getValue());
+    ccagrpsCF.setReadOnly(true)
+}
+
+//IHT Domain Groups -- customFieldId=13150
+def ihtdmngrps = objectFacade.loadObjectAttributeBean(objects[0].getId(), "IHT Domain Groups")
+if(ihtdmngrps != null) {
+    def ihtdmngrpsCF = getFieldById("customfield_12775")
+    ihtdmngrpsCF.setFormValue(ihtdmngrps.getObjectAttributeValueBeans()[0].getValue());   
+    ihtdmngrpsCF.setReadOnly(true)
+}
+
+//TiermedDC Domain Groups -- customFieldId=13151
+def tierdcdmngrps = objectFacade.loadObjectAttributeBean(objects[0].getId(), "TIERMEDDC Domain Groups")
+if(tierdcdmngrps != null) {
+    def tierdcdmngrpsCF = getFieldById("customfield_12776")
+    tierdcdmngrpsCF.setFormValue(tierdcdmngrps.getObjectAttributeValueBeans()[0].getValue());
+    tierdcdmngrpsCF.setReadOnly(true)
+}
+
+//D2HS Domain Groups (d2hs.com) -- customFieldId=13152
+def d2hsdmngrpss = objectFacade.loadObjectAttributeBean(objects[0].getId(), "u_d2hs_domain_groups_d2hs_com")
+if(d2hsdmngrpss != null) {
+    def d2hsdmngrpssCF = getFieldById("customfield_12770")
+    d2hsdmngrpssCF.setFormValue(tierdcdmngrps.getObjectAttributeValueBeans()[0].getValue());
+    d2hsdmngrpssCF.setReadOnly(true)
+}
+
+//Verscend Domain Groups -- customFieldId=13147
+def verscenddmngrp = objectFacade.loadObjectAttributeBean(objects[0].getId(), "Verscend Domain Groups")
+if(verscenddmngrp != null) {
+    def verscenddmngrpCF = getFieldById("customfield_12772")
+    verscenddmngrpCF.setFormValue(verscenddmngrp.getObjectAttributeValueBeans()[0].getValue());
+    verscenddmngrpCF.setReadOnly(true)
+}
+
+//Generic Service Request -- customFieldId=13505
+def genricsrvreq = objectFacade.loadObjectAttributeBean(objects[0].getId(), "Generic Service Request")
+if(genricsrvreq != null) {
+    def genricsrvreqCF = getFieldById("customfield_12777")
+    genricsrvreqCF.setFormValue(genricsrvreq.getObjectAttributeValueBeans()[0].getValue());
+    genricsrvreqCF.setReadOnly(true)
+}
