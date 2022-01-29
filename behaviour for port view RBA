@@ -1,0 +1,48 @@
+#in initializer
+
+import com.atlassian.jira.component.ComponentAccessor
+import com.onresolve.jira.groovy.user.FormField
+
+FormField businessUnitFF = getFieldById("customfield_11387")
+FormField subBusinessUnitFF = getFieldById("customfield_11388")
+FormField detailsFF = getFieldByName("Details")
+FormField justificationFF = getFieldByName("Justification (Please be specific why you cannot proceed with this form)")
+FormField roleFF = getFieldById("customfield_12723")
+FormField softwareFF = getFieldByName("Software")
+FormField hardwareFF = getFieldByName("Hardware")
+FormField hciDomainGroupsFF = getFieldByName("HCI Domain Groups")
+FormField hrpDomainGroupsFF = getFieldByName("HRP Domain Groups")
+FormField mediconnectDomainGroupFF = getFieldByName("Mediconnect Domain Groups")
+FormField d2hDomainGroupsFF = getFieldByName("D2H Domain Groups")
+FormField d2hsDomainGroupsFF = getFieldByName("D2HS Domain Groups (d2hs.com)")
+FormField createAccountFF = getFieldByName("Create Account")
+FormField verscendDomainGroupsFF = getFieldByName("Verscend Domain Groups")
+FormField cotivitiDomainGroupsFF = getFieldByName("Cotiviti Domain Groups")
+FormField ccaGroupsFF = getFieldByName("CCA Groups")
+FormField ihtDomainGroupsFF = getFieldByName("IHT Domain Groups")
+FormField tiermedDCDomainGroupsFF = getFieldByName("TiermedDC Domain Groups")
+FormField genericServiceRequestFF = getFieldByName("Generic Service Request")
+FormField summaryFF = getFieldById("summary")
+
+if(actionName == "Create") {
+    businessUnitFF.setHidden(true)
+    subBusinessUnitFF.setHidden(true)
+    detailsFF?.setReadOnly(true)
+    summaryFF?.setFormValue("RBA Operation")?.setHidden(true)
+    roleFF?.setHidden(true)
+    justificationFF?.setHidden(true)
+    softwareFF?.setHidden(true).setReadOnly(true)
+    hardwareFF?.setHidden(true).setReadOnly(true)
+    hciDomainGroupsFF?.setHidden(true).setReadOnly(true)
+    hrpDomainGroupsFF?.setHidden(true).setReadOnly(true)
+    mediconnectDomainGroupFF?.setHidden(true).setReadOnly(true)
+    d2hDomainGroupsFF?.setHidden(true).setReadOnly(true)
+    d2hsDomainGroupsFF?.setHidden(true).setReadOnly(true)
+    createAccountFF?.setHidden(true).setReadOnly(true)
+    verscendDomainGroupsFF?.setHidden(true).setReadOnly(true)
+    cotivitiDomainGroupsFF?.setHidden(true).setReadOnly(true)
+    ccaGroupsFF?.setHidden(true).setReadOnly(true)
+    ihtDomainGroupsFF?.setHidden(true).setReadOnly(true)
+    tiermedDCDomainGroupsFF?.setHidden(true).setReadOnly(true)
+    genericServiceRequestFF?.setHidden(true).setReadOnly(true)
+}
