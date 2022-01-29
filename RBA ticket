@@ -1,0 +1,44 @@
+## to set the error message based on the ticket status
+
+import com.atlassian.jira.component.ComponentAccessor
+
+def customFieldManager = ComponentAccessor.getCustomFieldManager()
+def issueManager = ComponentAccessor.getIssueManager()
+def detailsFF = getFieldByName("Details")
+def rbaTicketFF = getFieldById(getFieldChanged())
+
+String issueKey = rbaTicketFF.value as String
+if(issueKey == null || issueKey == "") {
+    detailsFF.setFormValue("")
+    rbaTicketFF.clearError()
+    return
+}
+
+issueKey = issueKey.trim()
+rbaTicketFF.setFormValue(issueKey)
+
+def issue = issueManager.getIssueObject(issueKey)
+if(issue == null) {
+    rbaTicketFF.setError("Invalid Issue Key")
+    detailsFF.setFormValue("")
+    return
+} else if(issue.issueType?.name != "Role Based Access") {
+    rbaTicketFF.setError("Selected issue is not RBA request")
+    detailsFF.setFormValue("")
+    return
+}else if(issue.status.name != "Open") {
+    rbaTicketFF.setError("RBA request already processed. Status : ${issue.status.name}")
+    detailsFF.setFormValue("")
+    return
+}  else {
+	rbaTicketFF.clearError()
+}
+
+def cFields = customFieldManager.getCustomFieldObjects(issue)
+
+String allFieldValues = "Summary - " + issue.getSummary()
+allFieldValues += "\nPriority - " + issue.getPriority().getName() + "\n"
+
+cFields.each {it -> if (it.isRenderable() && it.hasValue(issue)) {allFieldValues += it.name + " - " + issue.getCustomFieldValue(it) + "\n"}}
+def details = getFieldByName("Details")
+details.setFormValue(allFieldValues)
