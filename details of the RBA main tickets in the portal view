@@ -1,0 +1,8 @@
+def cFields = customFieldManager.getCustomFieldObjects(issue)
+
+String allFieldValues = "Summary - " + issue.getSummary()
+allFieldValues += "\nPriority - " + issue.getPriority().getName() + "\n"
+
+cFields.each {it -> if (it.isRenderable() && it.hasValue(issue)) {allFieldValues += it.name + " - " + issue.getCustomFieldValue(it) + "\n"}}
+def details = getFieldByName("Details")
+details.setFormValue(allFieldValues)
